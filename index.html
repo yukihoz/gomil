@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gomil</title>
+    <link rel="stylesheet" href="./styles.css?v=20260419-0024">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="finder" aria-labelledby="app-title">
+        <div class="copy-block">
+          <p class="eyebrow">Chuo City</p>
+          <h1 id="app-title">Gomil</h1>
+          <p class="lead">町名や丁目を入力すると、燃やすごみ・資源・プラマークなどの収集日を一覧できます。</p>
+
+          <div class="graphic-panel" aria-hidden="true">
+            <img
+              class="street-image"
+              alt=""
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 760 300'%3E%3Crect width='760' height='300' fill='%23f7faf9'/%3E%3Cpath d='M0 230h760v70H0z' fill='%2326292d'/%3E%3Cpath d='M44 174h118l-12 66H56z' fill='%2386dfc9' stroke='%2326292d' stroke-width='8' stroke-linejoin='round'/%3E%3Cpath d='M58 154h90M86 132h34' stroke='%2326292d' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M216 174h118l-12 66h-94z' fill='%23ffcf6f' stroke='%2326292d' stroke-width='8' stroke-linejoin='round'/%3E%3Cpath d='M230 154h90M258 132h34' stroke='%2326292d' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M386 174h118l-12 66h-94z' fill='%23ffb6a8' stroke='%2326292d' stroke-width='8' stroke-linejoin='round'/%3E%3Cpath d='M400 154h90M428 132h34' stroke='%2326292d' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M560 100h132v108H560z' fill='%23ffffff' stroke='%2326292d' stroke-width='8'/%3E%3Cpath d='M590 130h72M590 162h46' stroke='%2326292d' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M538 208h176v32H538z' fill='%23d7eee8' stroke='%2326292d' stroke-width='8'/%3E%3Ccircle cx='578' cy='246' r='24' fill='%2386dfc9' stroke='%2326292d' stroke-width='8'/%3E%3Ccircle cx='674' cy='246' r='24' fill='%23ff7d65' stroke='%2326292d' stroke-width='8'/%3E%3Cpath d='M562 246h32M658 246h32' stroke='%23fff' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M100 204c19-35 69-34 88 0M262 204c19-35 69-34 88 0M432 204c19-35 69-34 88 0' fill='none' stroke='%23fff' stroke-width='8' stroke-linecap='round' opacity='.65'/%3E%3Cpath d='M156 58l20 34h-40zM176 92l-20 34h40zM136 126l-20-34h40z' fill='none' stroke='%2326292d' stroke-width='9' stroke-linejoin='round'/%3E%3Cpath d='M46 54h70M46 88h38M604 54h96' stroke='%2326292d' stroke-width='8' stroke-linecap='round' opacity='.2'/%3E%3C/svg%3E">
+          </div>
+        </div>
+
+        <form class="search-panel" id="search-form">
+          <label for="address-input">住所・町名</label>
+          <div class="search-row">
+            <input id="address-input" type="search" placeholder="例：104-0061 / 銀座3丁目" autocomplete="off" list="address-options">
+            <button type="submit">検索</button>
+          </div>
+          <datalist id="address-options"></datalist>
+          <div class="search-today" id="search-today" aria-live="polite" hidden></div>
+        </form>
+      </section>
+
+      <section class="results-area" id="results-area" aria-live="polite" hidden>
+        <div class="empty-state" id="empty-state"></div>
+        <div class="result-header" id="result-header" hidden>
+          <h2 id="place-name"></h2>
+        </div>
+        <div class="schedule-grid" id="schedule-grid"></div>
+      </section>
+    </main>
+
+    <script src="./data.js"></script>
+    <script src="./app.js?v=20260419-0024"></script>
+  </body>
+</html>
