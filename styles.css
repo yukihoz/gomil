@@ -71,6 +71,10 @@ input {
   text-align: center;
 }
 
+.brand-copy {
+  min-width: 0;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: var(--violet-free-deep);
