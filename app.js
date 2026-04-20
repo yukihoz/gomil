@@ -2,7 +2,7 @@ const csvFileName = "./ゴミ収集日2026 - 完成.csv";
 const icons = {
   burnable: `<svg viewBox="0 0 48 48" role="img" aria-label="燃やすごみ"><path d="M25 43c8 0 14-5 14-13 0-6-4-11-8-15 0 6-4 9-7 9 2-8-2-14-8-19 1 9-7 14-7 24 0 8 7 14 16 14z" fill="currentColor"/></svg>`,
   nonBurnable: `<svg viewBox="0 0 48 48" role="img" aria-label="燃やさないごみ"><path d="M12 16l12-7 12 7v16L24 39 12 32V16z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M12 16l12 7 12-7M24 23v16" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg>`,
-  plastic: `<svg viewBox="0 0 48 48" role="img" aria-label="プラマーク"><path d="M17 12h14l5 8-12 18L12 20l5-8z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M17 12l7 26 7-26" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></svg>`,
+  plastic: `<svg viewBox="0 0 48 48" role="img" aria-label="プラマーク"><path d="M10 18h28l-4 20H14L10 18z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M13 14h22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>`,
   resource: `<svg viewBox="0 0 48 48" role="img" aria-label="資源"><path d="M18 7h12v8l5 6v18H13V21l5-6V7z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M17 27h14" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>`,
   oversized: `<svg viewBox="0 0 48 48" role="img" aria-label="粗大ごみ"><path d="M10 25h28v12H10V25zM14 17h20v8H14v-8z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M15 37v4M33 37v4" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>`,
 };

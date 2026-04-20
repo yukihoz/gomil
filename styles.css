@@ -467,7 +467,8 @@ button.button-press {
 
 .schedule-card[data-kind="plastic"] .mark svg,
 .today-icon svg[aria-label="プラマーク"] {
-  animation: plasticShine 3.2s ease-in-out infinite;
+  transform-origin: 50% 78%;
+  animation: plasticCrinkle 3.4s ease-in-out infinite;
 }
 
 .schedule-card[data-kind="resource"] .mark svg,
@@ -645,14 +646,18 @@ button.button-press {
   }
 }
 
-@keyframes plasticShine {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
+@keyframes plasticCrinkle {
+  0%, 76%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
   }
-  50% {
-    opacity: .72;
-    transform: scale(1.05);
+  82% {
+    transform: translateY(-2px) rotate(-1deg) scaleX(1.05) scaleY(.96);
+  }
+  89% {
+    transform: translateY(1px) rotate(1deg) scaleX(.97) scaleY(1.03);
+  }
+  95% {
+    transform: translateY(0) rotate(0deg) scale(1);
   }
 }
 
