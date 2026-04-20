@@ -58,6 +58,7 @@ const postalCodes = {
 const form = document.querySelector("#search-form");
 const input = document.querySelector("#address-input");
 const options = document.querySelector("#address-options");
+const searchButton = form.querySelector("button");
 const resultsArea = document.querySelector("#results-area");
 const emptyState = document.querySelector("#empty-state");
 const resultHeader = document.querySelector("#result-header");
@@ -253,11 +254,12 @@ function renderSchedule(row, label = row["名称"]) {
 
   const today = new Date();
   const todayChar = weekdayChars[today.getDay()];
-  categories.forEach((category) => {
+  categories.forEach((category, index) => {
     const card = document.createElement("article");
     card.className = "schedule-card";
     card.dataset.kind = category.kind;
     card.dataset.active = String(row[category.key].split("・").includes(todayChar));
+    card.style.setProperty("--enter-delay", `${90 + index * 70}ms`);
     card.innerHTML = `
       <div class="card-top">
         <p class="category-name">${category.label}</p>
@@ -267,8 +269,15 @@ function renderSchedule(row, label = row["名称"]) {
         <p class="days">${row[category.key]}</p>
       </div>
     `;
+    card.classList.add("card-enter");
     scheduleGrid.append(card);
   });
+}
+
+function restartAnimation(element, className) {
+  element.classList.remove(className);
+  void element.offsetWidth;
+  element.classList.add(className);
 }
 
 function renderSearchToday(row) {
@@ -289,6 +298,7 @@ function renderSearchToday(row) {
       ${todayKinds.length ? todayKinds.map((category) => `<span class="today-icon">${category.icon}</span>`).join("") : `<span class="today-icon today-icon-empty">—</span>`}
     </div>
   `;
+  restartAnimation(searchToday, "today-enter");
 }
 
 function renderMatches(matches, query) {
@@ -327,6 +337,7 @@ function renderMatches(matches, query) {
 }
 
 function search() {
+  restartAnimation(searchButton, "button-press");
   const query = input.value.trim();
   const matches = findMatches(query);
   renderMatches(matches, query);
