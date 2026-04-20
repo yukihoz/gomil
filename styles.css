@@ -378,6 +378,7 @@ button.button-press {
 
 .schedule-card {
   min-height: 132px;
+  align-self: start;
   border: 2px solid var(--ink);
   border-radius: 8px;
   padding: 14px;
@@ -385,10 +386,15 @@ button.button-press {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: box-shadow .16s ease;
 }
 
 .schedule-card[data-active="true"] {
   border-width: 4px;
+}
+
+.schedule-card[data-open="true"] {
+  box-shadow: 0 16px 34px rgba(38, 41, 45, .13);
 }
 
 .schedule-card.card-enter {
@@ -489,6 +495,142 @@ button.button-press {
   font-weight: 900;
   word-break: keep-all;
   overflow-wrap: anywhere;
+}
+
+.guide-toggle {
+  justify-self: flex-end;
+  align-self: flex-end;
+  width: auto;
+  min-height: 34px;
+  margin: 12px 0 0 auto;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0 8px 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, .78);
+  color: var(--ink);
+  font-size: .82rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease, transform .16s ease;
+}
+
+.guide-toggle:hover {
+  background: var(--paper);
+  border-color: var(--ink);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.guide-toggle:focus-visible {
+  outline: 4px solid rgba(255, 125, 101, .24);
+  outline-offset: 3px;
+}
+
+.schedule-card[data-open="true"] .guide-toggle {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: rgba(255, 255, 255, .78);
+}
+
+.toggle-symbol {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+}
+
+.toggle-symbol::before,
+.toggle-symbol::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform .16s ease, opacity .16s ease;
+}
+
+.toggle-symbol::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.schedule-card[data-open="true"] .toggle-symbol::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.guide-panel {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px solid rgba(38, 41, 45, .12);
+  animation: guideReveal .22s ease-out both;
+}
+
+.guide-title {
+  margin: 0 0 8px;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.guide-groups {
+  display: grid;
+  gap: 10px;
+}
+
+.guide-group {
+  display: grid;
+  gap: 3px;
+}
+
+.guide-group-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: .8rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.guide-line {
+  margin: 0;
+  color: var(--ink);
+  font-size: .8rem;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.guide-items {
+  margin: 0;
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.guide-link {
+  display: inline;
+  margin-top: 12px;
+  max-width: 100%;
+  color: var(--ink);
+  font-size: .76rem;
+  font-weight: 800;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.guide-link:hover {
+  color: var(--muted);
 }
 
 .match-list {
@@ -607,6 +749,17 @@ button.button-press {
   100% {
     transform: scale(1);
     box-shadow: none;
+  }
+}
+
+@keyframes guideReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

@@ -6,12 +6,90 @@ const icons = {
   resource: `<svg viewBox="0 0 48 48" role="img" aria-label="資源"><path d="M18 7h12v8l5 6v18H13V21l5-6V7z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M17 27h14" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>`,
   oversized: `<svg viewBox="0 0 48 48" role="img" aria-label="粗大ごみ"><path d="M10 25h28v12H10V25zM14 17h20v8H14v-8z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M15 37v4M33 37v4" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>`,
 };
+const disposalGuides = {
+  burnable: {
+    groups: [
+      {
+        title: "生ごみ・紙くず・木くず・その他",
+        items: ["生ごみ", "紙おむつ", "資源に出せない紙類", "少量の植木の葉・枝", "たばこの吸殻"],
+      },
+      {
+        title: "ゴム・皮革類",
+        items: ["ゴム手袋", "ゴムホース", "革ぐつ", "革のかばん"],
+      },
+      {
+        title: "プラスチック類",
+        items: ["プラスチック製のスプーンやフォーク", "プラスチック製品（CD/DVDなど）", "ラップ類", "おもちゃ", "汚れの落ちないプラスチック製容器包装"],
+      },
+    ],
+  },
+  nonBurnable: {
+    groups: [
+      {
+        title: "金属類",
+        items: ["傘", "使い捨てカイロ", "アルミホイル", "はさみ", "ライター"],
+      },
+      {
+        title: "汚れの落ちないびん・缶",
+        items: [],
+      },
+      {
+        title: "電池類",
+        items: ["乾電池", "充電式電池", "コイン形リチウム電池", "ボタン電池"],
+      },
+      {
+        title: "ガラス・陶磁器類",
+        items: ["コップ", "茶碗"],
+      },
+      {
+        title: "電球や割れた蛍光管",
+        items: [],
+      },
+    ],
+  },
+  plastic: {
+    groups: [
+      {
+        title: "トレイ、ボトル容器、パック・カップ、キャップ、袋・ラベル、緩衝材・ネット・その他",
+        items: [],
+        plain: true,
+      },
+    ],
+  },
+  resource: {
+    groups: [
+      {
+        title: "新聞・雑誌・雑紙・段ボール、ペットボトル、びん、缶類",
+        items: [],
+        plain: true,
+      },
+    ],
+  },
+  oversized: {
+    groups: [
+      {
+        title: "家具や家庭用品などで、一辺の長さがおおむね30cmを超えるもの",
+        items: [],
+        plain: true,
+      },
+      {
+        title: "有料で申込制。申し込みは以下から",
+        items: [],
+        plain: true,
+      },
+    ],
+    link: {
+      label: "https://ecolife.e-tumo.jp/kankyo-chuo-tokyo-u/offer/offerList_initDisplay",
+      url: "https://ecolife.e-tumo.jp/kankyo-chuo-tokyo-u/offer/offerList_initDisplay",
+    },
+  },
+};
 const categories = [
-  { key: "燃やすごみ", label: "燃やすごみ", icon: icons.burnable, kind: "burnable" },
-  { key: "燃やさないごみ", label: "燃やさないごみ", icon: icons.nonBurnable, kind: "nonBurnable" },
-  { key: "プラマーク", label: "プラマーク", icon: icons.plastic, kind: "plastic" },
-  { key: "資源", label: "資源", icon: icons.resource, kind: "resource" },
-  { key: "粗大ごみ", label: "粗大ごみ", icon: icons.oversized, kind: "oversized" },
+  { key: "燃やすごみ", label: "燃やすごみ", icon: icons.burnable, kind: "burnable", guide: disposalGuides.burnable },
+  { key: "燃やさないごみ", label: "燃やさないごみ", icon: icons.nonBurnable, kind: "nonBurnable", guide: disposalGuides.nonBurnable },
+  { key: "プラマーク", label: "プラマーク", icon: icons.plastic, kind: "plastic", guide: disposalGuides.plastic },
+  { key: "資源", label: "資源", icon: icons.resource, kind: "resource", guide: disposalGuides.resource },
+  { key: "粗大ごみ", label: "粗大ごみ", icon: icons.oversized, kind: "oversized", guide: disposalGuides.oversized },
 ];
 const weekdayChars = ["日", "月", "火", "水", "木", "金", "土"];
 const postalCodes = {
@@ -255,10 +333,12 @@ function renderSchedule(row, label = row["名称"]) {
   const today = new Date();
   const todayChar = weekdayChars[today.getDay()];
   categories.forEach((category, index) => {
+    const guideId = `guide-${category.kind}`;
     const card = document.createElement("article");
     card.className = "schedule-card";
     card.dataset.kind = category.kind;
     card.dataset.active = String(row[category.key].split("・").includes(todayChar));
+    card.dataset.open = "false";
     card.style.setProperty("--enter-delay", `${90 + index * 70}ms`);
     card.innerHTML = `
       <div class="card-top">
@@ -268,10 +348,38 @@ function renderSchedule(row, label = row["名称"]) {
       <div>
         <p class="days">${row[category.key]}</p>
       </div>
+      <button type="button" class="guide-toggle" aria-expanded="false" aria-controls="${guideId}">
+        <span class="toggle-label">主な例を見る</span>
+        <span class="toggle-symbol" aria-hidden="true"></span>
+      </button>
+      <div class="guide-panel" id="${guideId}" hidden>
+        <p class="guide-title">主な例</p>
+        <div class="guide-groups">
+          ${category.guide.groups.map((group) => `
+            <section class="guide-group">
+              <p class="${group.plain ? "guide-line" : "guide-group-title"}">${group.title}</p>
+              ${group.items.length ? `<p class="guide-items">${group.items.join("、")}</p>` : ""}
+            </section>
+          `).join("")}
+        </div>
+        ${category.guide.link ? `<a class="guide-link" href="${category.guide.link.url}" target="_blank" rel="noopener noreferrer">${category.guide.link.label}</a>` : ""}
+      </div>
     `;
     card.classList.add("card-enter");
+    card.querySelector(".guide-toggle").addEventListener("click", () => toggleGuideCard(card));
     scheduleGrid.append(card);
   });
+}
+
+function toggleGuideCard(card) {
+  const shouldOpen = card.dataset.open !== "true";
+  const panel = card.querySelector(".guide-panel");
+  const toggle = card.querySelector(".guide-toggle");
+  const label = card.querySelector(".toggle-label");
+  card.dataset.open = String(shouldOpen);
+  toggle.setAttribute("aria-expanded", String(shouldOpen));
+  panel.hidden = !shouldOpen;
+  label.textContent = shouldOpen ? "閉じる" : "主な例を見る";
 }
 
 function restartAnimation(element, className) {
