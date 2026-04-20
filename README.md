@@ -78,6 +78,79 @@ node -e "const fs=require('fs'); const csv=fs.readFileSync('ゴミ収集日20
 
 その後、ブラウザをリロードして確認します。
 
+## 種類ごとの主な例を更新する
+
+検索結果のカードで「主な例を見る」を押したときに出る内容は、CSVではなく `app.js` の `disposalGuides` で管理しています。
+
+CSVは「住所ごとの収集曜日」、`disposalGuides` は「ごみ種類ごとの説明」と分けて考えます。
+
+```js
+const disposalGuides = {
+  burnable: {
+    groups: [
+      {
+        title: "生ごみ・紙くず・木くず・その他",
+        items: ["生ごみ", "紙おむつ", "資源に出せない紙類"],
+      },
+      {
+        title: "ゴム・皮革類",
+        items: ["ゴム手袋", "ゴムホース", "革ぐつ"],
+      },
+    ],
+  },
+};
+```
+
+`title` は1行目の見出し、`items` は2行目に読点区切りで表示される例です。
+
+見出しではなく、1行の説明として表示したい場合は `plain: true` を付けて、`items` は空配列にします。
+
+```js
+plastic: {
+  groups: [
+    {
+      title: "トレイ、ボトル容器、パック・カップ、キャップ、袋・ラベル",
+      items: [],
+      plain: true,
+    },
+  ],
+},
+```
+
+申し込み先などのURLを表示したい場合は `link` を追加します。
+
+```js
+oversized: {
+  groups: [
+    {
+      title: "有料で申込制。申し込みは以下から",
+      items: [],
+      plain: true,
+    },
+  ],
+  link: {
+    label: "https://example.com/apply",
+    url: "https://example.com/apply",
+  },
+},
+```
+
+新しいごみ種類を増やす場合は、`disposalGuides` に説明を追加したうえで、`categories` にも同じ `guide` を指定します。
+
+```js
+const categories = [
+  {
+    key: "燃やすごみ",
+    label: "燃やすごみ",
+    icon: icons.burnable,
+    kind: "burnable",
+    guide: disposalGuides.burnable,
+  },
+];
+```
+
+`key` はCSVの列名と一致させます。`kind` はCSSの見た目やアニメーションの切り替えに使います。
+
 ## 郵便番号を更新する
 
 郵便番号は `app.js` の `postalCodes` に定義しています。
@@ -106,11 +179,11 @@ CSV          町名と収集曜日
 
 ```js
 const categories = [
-  { key: "燃やすごみ", label: "燃やすごみ", icon: icons.burnable, kind: "burnable" },
+  { key: "燃やすごみ", label: "燃やすごみ", icon: icons.burnable, kind: "burnable", guide: disposalGuides.burnable },
 ];
 ```
 
-`key` はCSVの列名と一致させてください。
+`key` はCSVの列名と一致させてください。種類ごとの説明文は `disposalGuides` に追加します。
 
 ## 公開時の注意
 
@@ -137,6 +210,12 @@ index.html を編集
 
 ```text
 CSVを編集 -> data.jsを再生成
+```
+
+種類ごとの説明を直したい場合:
+
+```text
+app.js の disposalGuides を編集
 ```
 
 公開版に反映したい場合:
