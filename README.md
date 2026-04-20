@@ -30,7 +30,7 @@ http://localhost:5174/
 ## GitHub Pagesで公開する
 
 1. GitHubで新しいリポジトリを作成します。
-   例: `gimil`
+   例: `gomil`
 
 2. このフォルダをGit管理にしてpushします。
 
@@ -40,7 +40,7 @@ git init
 git add index.html styles.css app.js data.js "ゴミ収集日2026 - 完成.csv" README.md
 git commit -m "Initial Gomil site"
 git branch -M main
-git remote add origin https://github.com/yukihoz/gimil.git
+git remote add origin https://github.com/yukihoz/gomil.git
 git push -u origin main
 ```
 
@@ -57,7 +57,7 @@ Save
 4. 数分後、以下のURLで公開されます。
 
 ```text
-https://yukihoz.github.io/gimil/
+https://yukihoz.github.io/gomil/
 ```
 
 ## データを更新する

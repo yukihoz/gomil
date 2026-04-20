@@ -251,10 +251,13 @@ function renderSchedule(row, label = row["名称"]) {
 
   renderSearchToday(row);
 
+  const today = new Date();
+  const todayChar = weekdayChars[today.getDay()];
   categories.forEach((category) => {
     const card = document.createElement("article");
     card.className = "schedule-card";
     card.dataset.kind = category.kind;
+    card.dataset.active = String(row[category.key].split("・").includes(todayChar));
     card.innerHTML = `
       <div class="card-top">
         <p class="category-name">${category.label}</p>
